@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+*.log
+
+# Old / tooling leftovers
+.lovable/
+.workspace/
+bun.lock
+bunfig.toml
+tsconfig.tsbuildinfo
+.vscode/
