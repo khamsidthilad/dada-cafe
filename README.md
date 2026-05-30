@@ -13,6 +13,15 @@ js/main.js      — navbar, menu tabs, interactions
 assets/         — images
 ```
 
+## Build
+
+Copies the site into `dist/` for deployment (Netlify, Vercel, GitHub Pages, etc.):
+
+```bash
+npm run build
+npm run preview   # optional: preview dist/ on port 3000
+```
+
 ## Run locally
 
 ES modules need a local server (opening `index.html` directly may block imports).
