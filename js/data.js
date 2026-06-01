@@ -6,30 +6,48 @@ export const asset = (file) => `assets/${encodeURIComponent(file)}`;
 /** Images in assets/ — add new files here, then reference by key in MENU. */
 export const ASSETS = {
   americano: "IcedAmericano-600x600-500x500.jpg",
-  latte: "Gemini_Generated_Image_7xp4vd7xp4vd7xp4.png",
-  cappuccino: "Gemini_Generated_Image_ctj6gcctj6gcctj6.png",
-  espresso: "Gemini_Generated_Image_2l11mi2l11mi2l11.png",
-  mocha: "Marble Mocha Macchiato.jpeg",
-  flatWhite: "Gemini_Generated_Image_hmj95shmj95shmj9.png",
-  vanillaLatte: "Gemini_Generated_Image_pi23eupi23eupi23.png",
-  caramelLatte: "Gemini_Generated_Image_4tblms4tblms4tbl.png",
-  hazelnut: "Hazelnut Cappuccino - Premium Fragrance Oil.jpeg",
-  macchiato: "Gemini_Generated_Image_xa5eh6xa5eh6xa5e.png",
+  latte: "iced-latte.webp",
+  cappuccino: "Frappuccino.jpeg",
+  espresso: "Espresso-Frappe.jpg",
+  mocha: "Mocha.webp",
+  flatWhite: "Flat White.webp",
+  vanillaLatte: "Vanilla Latte.jpg",
+  caramelLatte: "Caramel Latte.jpg",
+  hazelnut: "Hazelnut Cappuccino.jpg",
+  macchiato: "Espresso Macchiato.webp",
   coldBrew: "How to Make Cold Brew Coffee.jpeg",
-  pourOver: "☕ Master Pour-Over Coffee _ Easy Brew Guide for Bold Flavor! ✨.jpeg",
-  matcha: "Gemini_Generated_Image_evpe7ievpe7ievpe.png",
-  chocolate: "บางวันก็ไม่ต้องการอะไรหวือหวา_แค่อยากนั่งพัก หยิบ ชีสเค้กหน้าไหม้ นุ่ม ๆ_จิบ น้ำฮันน.jpeg",
-  milkTea: "เอาไปเลยย!! 20 สูตร _ชงชา กาแฟ_ ทำเองไม่ต้องง้อร้านแล้ว! _ Spiceee_net _ LINE TODAY.jpeg",
-  milk: "Gemini_Generated_Image_eo4gegeo4gegeo4g.png",
-  lemonTea: "When life gives you lemons… add them to your Biome Brews tea 🍋✨ Your gut will thank you, and your taste buds will dance! 💃 100% organic, 100% delicious_ #TeaLoversUnite #GutHealthJourney.jpeg",
+  // pourOver: "☕ Master Pour-Over Coffee _ Easy Brew Guide for Bold Flavor! ✨.jpeg",
+  matcha: "Matcha-atte.png",
+  chocolate: "Chocolate.jpeg",
+  milkTea: "sathai.png",
+  milk: "milk.jpeg",
+  lemonTea: "Iced Lemon Tea.jpeg",
+  honeyLemon: "Lemon & Honey.jpeg",
+  hotTea: "hot-tea.jpg",
   soda: "gallery-2.jpg",
   strawberrySoda: "Strawberry Soda.jpeg",
-  sodaAlt: "_ (1).jpeg",
-  sodaAlt2: "_ (2).jpeg",
-  shake: "Thick Vanilla Shake • Gestational Diabetes UK.jpeg",
-  fruitShake: "Gemini_Generated_Image_eo4gegeo4gegeo4g.png",
-  fruitShake2: "Gemini_Generated_Image_2l11mi2l11mi2l11.png",
+  sodaAlt: "lemon-soda.webp",
+  fruitShake: "mango-frooti.jpg",
   croissant: "You Wouldn't Suspect The Treats From This_.jpeg",
+  BlackHoneyLemon: "Black Honey Lemon.jpg",
+  BlackSoda: "Black coffee Soda.jpg",
+  BlackOrange: "Black-coffee-Orange-Juice.jpg",
+  // LemonSoda: "Lemon Soda.jpg",
+  RaspberrySoda: "raspberry-soda.jpg",
+  // StrawberrySoda: "Strawberry Soda.jpg",
+  PassionSoda: "pass.jpeg",
+  // PeachSoda: "Peach Soda.jpg",
+  BlueLemonSoda: "Blue Lemon Soda.jpeg",
+  melon: "Melon.webp",
+  orangeJuice: "Orange Juice.jpeg",
+  apple: "Apple.jpeg",
+  watermelon: "Watermelon.jpg",
+  banana: "Banana.jpg",
+
+  strawberryBanana: "Strawberry Banana.jpg",
+  bananaAlmond: "Banana Almond.jpg",
+  strawberryMilk: "Strawberry Milk.jpg",
+  strawberryYogurt: "Strawberry Yogurt.jpeg",
 };
 
 export const formatKip = (n) => `₭${n.toLocaleString("en-US")}`;
@@ -39,6 +57,7 @@ export const MENU_TABS = [
   { id: "tea", label: "Tea & Specials" },
   { id: "soda", label: "Soda" },
   { id: "shake", label: "Shakes & Juice" },
+  { id: "food", label: "Food" },
 ];
 
 export const MENU = [
@@ -112,24 +131,24 @@ export const MENU = [
     variants: [{ label: "Hot", price: k(45) }, { label: "Ice", price: k(50) }],
   },
   {
-    id: "honey-lemon", name: "Honey Lemon", lao: "ນ້ຳເຜິ້ງໝາກນາວ", category: "tea", image: asset(ASSETS.lemonTea),
+    id: "honey-lemon", name: "Honey Lemon", lao: "ນ້ຳເຜິ້ງໝາກນາວ", category: "tea", image: asset(ASSETS.honeyLemon),
     variants: [{ label: "Hot", price: k(45) }, { label: "Ice", price: k(50) }],
   },
   {
-    id: "hot-tea", name: "Hot Tea", lao: "ຊາຮ້ອນ", category: "tea", image: asset(ASSETS.milkTea),
+    id: "hot-tea", name: "Hot Tea", lao: "ຊາຮ້ອນ", category: "tea", image: asset(ASSETS.hotTea),
     variants: [{ label: "Hot", price: k(55) }],
     description: "Green tea, Black tea, Butterfly pea tea, Dilmah tea.",
   },
   {
-    id: "black-honey-lemon", name: "Black Honey Lemon", lao: "ກາເຟດຳ ນ້ຳເຜິ້ງ", category: "coffee", image: asset(ASSETS.americano),
+    id: "black-honey-lemon", name: "Black Honey Lemon", lao: "ກາເຟດຳ ນ້ຳເຜິ້ງ", category: "coffee", image: asset(ASSETS.BlackHoneyLemon),
     variants: [{ label: "Ice", price: k(57) }],
   },
   {
-    id: "black-soda", name: "Black coffee Soda", lao: "ກາເຟດຳ ໂຊດາ", category: "coffee", image: asset(ASSETS.americano),
+    id: "black-soda", name: "Black coffee Soda", lao: "ກາເຟດຳ ໂຊດາ", category: "coffee", image: asset(ASSETS.BlackSoda),
     variants: [{ label: "Ice", price: k(50) }],
   },
   {
-    id: "black-orange", name: "Black coffee Orange Juice", lao: "ກາເຟດຳ ນ້ຳສົ້ມ", category: "coffee", image: asset(ASSETS.fruitShake),
+    id: "black-orange", name: "Black coffee Orange Juice", lao: "ກາເຟດຳ ນ້ຳສົ້ມ", category: "coffee", image: asset(ASSETS.BlackOrange),
     variants: [{ label: "Ice", price: k(65) }],
   },
   {
@@ -137,7 +156,7 @@ export const MENU = [
     variants: [{ label: "Ice", price: k(45) }],
   },
   {
-    id: "raspberry-soda", name: "Raspberry Soda", lao: "ໂຊດາ ຣາສເບີຣີ", category: "soda", image: asset(ASSETS.sodaAlt2),
+    id: "raspberry-soda", name: "Raspberry Soda", lao: "ໂຊດາ ຣາສເບີຣີ", category: "soda", image: asset(ASSETS.RaspberrySoda),
     variants: [{ label: "Ice", price: k(45) }],
   },
   {
@@ -145,7 +164,7 @@ export const MENU = [
     variants: [{ label: "Ice", price: k(45) }],
   },
   {
-    id: "passion-soda", name: "Passion Fruit Soda", lao: "ໂຊດາ ໝາກນ໋ອດ", category: "soda", image: asset(ASSETS.soda),
+    id: "passion-soda", name: "Passion Fruit Soda", lao: "ໂຊດາ ໝາກນ໋ອດ", category: "soda", image: asset(ASSETS.PassionSoda),
     variants: [{ label: "Ice", price: k(45) }],
   },
   {
@@ -153,51 +172,57 @@ export const MENU = [
     variants: [{ label: "Ice", price: k(45) }],
   },
   {
-    id: "blue-lemon-soda", name: "Blue Lemon Soda", lao: "ໂຊດາ ບລູເລມອນ", category: "soda", image: asset(ASSETS.sodaAlt2),
+    id: "blue-lemon-soda", name: "Blue Lemon Soda", lao: "ໂຊດາ ບລູເລມອນ", category: "soda", image: asset(ASSETS.BlueLemonSoda),
     variants: [{ label: "Ice", price: k(45) }],
   },
+
+
+
   {
     id: "mango", name: "Mango", lao: "ໝາກມ່ວງ", category: "shake", image: asset(ASSETS.fruitShake),
     variants: [{ label: "Shake", price: k(40) }],
   },
   {
-    id: "melon", name: "Melon", lao: "ແຕງດອມ", category: "shake", image: asset(ASSETS.fruitShake2),
+    id: "melon", name: "Melon", lao: "ແຕງດອມ", category: "shake", image: asset(ASSETS.melon),
     variants: [{ label: "Shake", price: k(50) }],
   },
   {
-    id: "orange-juice", name: "Orange Juice", lao: "ນ້ຳໝາກກ້ຽງ", category: "shake", image: asset(ASSETS.sodaAlt),
+    id: "orange-juice", name: "Orange Juice", lao: "ນ້ຳໝາກກ້ຽງ", category: "shake", image: asset(ASSETS.orangeJuice),
     variants: [{ label: "Single", price: k(43) }],
   },
   {
-    id: "watermelon", name: "Watermelon", lao: "ໝາກໂມ", category: "shake", image: asset(ASSETS.fruitShake),
+    id: "watermelon", name: "Watermelon", lao: "ໝາກໂມ", category: "shake", image: asset(ASSETS.watermelon),
     variants: [{ label: "Shake", price: k(40) }],
   },
   {
-    id: "apple", name: "Apple", lao: "ແອັບເປິ້ນ", category: "shake", image: asset(ASSETS.fruitShake2),
+    id: "apple", name: "Apple", lao: "ແອັບເປິ້ນ", category: "shake", image: asset(ASSETS.apple),
     variants: [{ label: "Shake", price: k(50) }],
   },
   {
-    id: "banana", name: "Banana", lao: "ໝາກກ້ວຍ", category: "shake", image: asset(ASSETS.shake),
+    id: "banana", name: "Banana", lao: "ໝາກກ້ວຍ", category: "shake", image: asset(ASSETS.banana),
     variants: [{ label: "Shake", price: k(40) }],
   },
   {
-    id: "strawberry-banana", name: "Strawberry Banana", lao: "ສະຕຣໍ ໝາກກ້ວຍ", category: "shake", image: asset(ASSETS.shake),
+    id: "strawberry-banana", name: "Strawberry Banana", lao: "ສະຕຣໍ ໝາກກ້ວຍ", category: "shake", image: asset(ASSETS.strawberryBanana),
     variants: [{ label: "Shake", price: k(65) }],
   },
   {
-    id: "banana-almond", name: "Banana Almond", lao: "ໝາກກ້ວຍ ອັນມອນ", category: "shake", image: asset(ASSETS.shake),
+    id: "banana-almond", name: "Banana Almond", lao: "ໝາກກ້ວຍ ອັນມອນ", category: "shake", image: asset(ASSETS.bananaAlmond),
     variants: [{ label: "Shake", price: k(65) }],
   },
   {
-    id: "strawberry-milk", name: "Strawberry Milk", lao: "ສະຕຣໍ ນົມ", category: "shake", image: asset(ASSETS.shake),
+    id: "strawberry-milk", name: "Strawberry Milk", lao: "ສະຕຣໍ ນົມ", category: "shake", image: asset(ASSETS.strawberryMilk),
     variants: [{ label: "Shake", price: k(57) }],
   },
   {
-    id: "strawberry-yogurt", name: "Strawberry Yogurt", lao: "ສະຕຣໍ ໂຍເກີດ", category: "shake", image: asset(ASSETS.strawberrySoda),
+    id: "strawberry-yogurt", name: "Strawberry Yogurt", lao: "ສະຕຣໍ ໂຍເກີດ", category: "shake", image: asset(ASSETS.strawberryYogurt),
     variants: [{ label: "Shake", price: k(75) }],
   },
+
+
+
   {
-    id: "croissant", name: "Croissant", lao: "ຄຣົວຊອງ", category: "tea", image: asset(ASSETS.croissant),
+    id: "croissant", name: "Croissant", lao: "ຄຣົວຊອງ", category: "food", image: asset(ASSETS.croissant),
     description: "72-hour laminated French butter, baked daily.",
     variants: [{ label: "Single", price: k(35) }],
   },
