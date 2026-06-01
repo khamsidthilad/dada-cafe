@@ -9,14 +9,16 @@ import {
   subscribe,
 } from "./cart.js";
 
-let activeTab = "all";
+let activeTab = "coffee";
+
+const bagIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`;
 
 function initNavbar() {
   const header = document.getElementById("site-header");
-  const darkToggle = document.getElementById("dark-toggle");
   const mobileOpen = document.getElementById("mobile-menu-open");
   const mobileOverlay = document.getElementById("mobile-overlay");
   const mobileClose = document.getElementById("mobile-menu-close");
+  const cartOpen = document.getElementById("cart-open");
 
   const onScroll = () => {
     header.classList.toggle("site-header--scrolled", window.scrollY > 24);
@@ -24,12 +26,7 @@ function initNavbar() {
   window.addEventListener("scroll", onScroll);
   onScroll();
 
-  darkToggle?.addEventListener("click", () => {
-    const next = !document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", next);
-    darkToggle.setAttribute("aria-pressed", String(next));
-    darkToggle.innerHTML = next ? iconSun() : iconMoon();
-  });
+  cartOpen?.addEventListener("click", () => setCartOpen(true));
 
   mobileOpen?.addEventListener("click", () => {
     mobileOverlay.hidden = false;
@@ -46,6 +43,14 @@ function initNavbar() {
     if (e.target === mobileOverlay) closeMobile();
   });
   mobileOverlay?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMobile));
+}
+
+function updateCartBadge() {
+  const badge = document.getElementById("cart-count");
+  if (!badge) return;
+  const { count } = getCart();
+  badge.textContent = String(count);
+  badge.hidden = count === 0;
 }
 
 function initCart() {
@@ -68,8 +73,12 @@ function initCart() {
     }
   });
 
-  subscribe(renderCartDrawer);
+  subscribe(() => {
+    renderCartDrawer();
+    updateCartBadge();
+  });
   renderCartDrawer();
+  updateCartBadge();
 }
 
 function renderMenuTabs() {
@@ -77,7 +86,7 @@ function renderMenuTabs() {
   if (!container) return;
   container.innerHTML = MENU_TABS.map(
     (t) =>
-      `<button type="button" class="menu-tab${activeTab === t.id ? " menu-tab--active" : ""}" data-tab="${t.id}">${t.label}</button>`
+      `<button type="button" role="tab" aria-selected="${activeTab === t.id}" class="menu-tab${activeTab === t.id ? " menu-tab--active" : ""}" data-tab="${t.id}">${t.label}</button>`
   ).join("");
 
   container.querySelectorAll(".menu-tab").forEach((btn) => {
@@ -89,60 +98,74 @@ function renderMenuTabs() {
   });
 }
 
+function formatPriceMeta(item, variantIndex = 0) {
+  const v = item.variants[variantIndex];
+  if (!v) return "";
+  if (item.variants.length === 1) return formatKip(v.price);
+  return `${formatKip(v.price)} / ${v.label}`;
+}
+
 function renderMenuGrid() {
   const grid = document.getElementById("menu-grid");
   if (!grid) return;
 
-  const items = activeTab === "all" ? MENU : MENU.filter((m) => m.category === activeTab);
+  const items = MENU.filter((m) => m.category === activeTab);
 
   grid.innerHTML = items
     .map((item) => {
-      const minPrice = Math.min(...item.variants.map((v) => v.price));
-      const priceLabel =
-        item.variants.length > 1 ? `from ${formatKip(minPrice)}` : formatKip(minPrice);
-      const variants = item.variants
+      const hasVariants = item.variants.length > 1;
+      const variantOptions = item.variants
         .map(
-          (v, vi) => `
-        <button type="button" class="menu-variant" data-item-id="${item.id}" data-variant-index="${vi}">
-          <span class="menu-variant-label"><span aria-hidden="true">+</span> ${v.label}</span>
-          <span>${formatKip(v.price)}</span>
-        </button>`
+          (v, vi) =>
+            `<option value="${vi}"${vi === 0 ? " selected" : ""}>${v.label} — ${formatKip(v.price)}</option>`
         )
         .join("");
 
       return `
-      <article class="menu-card glass">
+      <article class="menu-card">
         <div class="menu-card-image">
-          <img src="${item.image}" alt="${item.name}" loading="lazy" width="800" height="600" />
-          <span class="menu-card-category">${item.category}</span>
+          <img src="${item.image}" alt="${item.name}" loading="lazy" width="400" height="400" />
         </div>
-        <div class="menu-card-body">
-          <div class="menu-card-header">
-            <h3>${item.name}</h3>
-            <span class="menu-card-price">${priceLabel}</span>
+        <div class="menu-card-footer">
+          <h3 class="menu-card-name">${item.name}</h3>
+          <span class="menu-card-lao">${item.lao}</span>
+          <div class="menu-card-row">
+            <div class="menu-card-meta">
+              <span class="menu-card-price" data-item-id="${item.id}">${formatPriceMeta(item, 0)}</span>
+              ${
+                hasVariants
+                  ? `<select class="menu-card-variant" data-item-id="${item.id}" aria-label="Size for ${item.name}">${variantOptions}</select>`
+                  : ""
+              }
+            </div>
+            <button type="button" class="menu-card-add" data-item-id="${item.id}" data-variant-index="0">
+              <span>Add to cart</span>
+              ${bagIcon}
+            </button>
           </div>
-          <div class="menu-card-lao">${item.lao}</div>
-          ${item.description ? `<p class="menu-card-desc">${item.description}</p>` : ""}
-          <div class="menu-card-variants">${variants}</div>
         </div>
       </article>`;
     })
     .join("");
 
-  grid.querySelectorAll(".menu-variant").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const item = MENU.find((m) => m.id === btn.dataset.itemId);
-      if (item) addToCart(item, Number(btn.dataset.variantIndex));
+  grid.querySelectorAll(".menu-card-variant").forEach((select) => {
+    select.addEventListener("change", () => {
+      const item = MENU.find((m) => m.id === select.dataset.itemId);
+      const card = select.closest(".menu-card");
+      const priceEl = card?.querySelector(".menu-card-price");
+      const addBtn = card?.querySelector(".menu-card-add");
+      const vi = Number(select.value);
+      if (item && priceEl) priceEl.textContent = formatPriceMeta(item, vi);
+      if (addBtn) addBtn.dataset.variantIndex = String(vi);
     });
   });
-}
 
-function iconMoon() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
-}
-
-function iconSun() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
+  grid.querySelectorAll(".menu-card-add").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = MENU.find((m) => m.id === btn.dataset.itemId);
+      if (item) addToCart(item, Number(btn.dataset.variantIndex || 0));
+    });
+  });
 }
 
 document.getElementById("footer-year").textContent = String(new Date().getFullYear());

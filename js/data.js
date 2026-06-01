@@ -35,7 +35,6 @@ export const ASSETS = {
 export const formatKip = (n) => `₭${n.toLocaleString("en-US")}`;
 
 export const MENU_TABS = [
-  { id: "all", label: "All" },
   { id: "coffee", label: "Coffee" },
   { id: "tea", label: "Tea & Specials" },
   { id: "soda", label: "Soda" },
